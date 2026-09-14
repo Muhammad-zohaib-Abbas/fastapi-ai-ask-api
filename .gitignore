@@ -1,0 +1,4 @@
+.venv/
+.env
+note.txt
+__pycache__/
