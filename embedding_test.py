@@ -94,5 +94,17 @@ for text in texts:
 # Sort highest similarity first
 results.sort(reverse=True)
 
-for similarity, text in results:
-    print(f"{similarity:.4f} → {text}")
+# for similarity, text in results:
+#     print(f"{similarity:.4f} → {text}")
+
+
+    
+from app.embeddings import generate_embedding
+
+text = "PostgreSQL is a powerful relational database."
+
+vector = generate_embedding(text)
+
+print("Text:", text)
+print("Vector dimensions:", len(vector))
+print("First five values:", vector[:5])
