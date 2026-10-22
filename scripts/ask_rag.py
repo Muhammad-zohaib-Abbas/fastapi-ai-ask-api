@@ -18,4 +18,12 @@ if __name__ == "__main__":
             print(f"\nAnswer: {answer}")
 
         except Exception as error:
-            print(f"\nSomething went wrong: {error}")
+            error_message = str(error)
+
+            if "503" in error_message or "UNAVAILABLE" in error_message:
+                print(
+                    "\nGemini is temporarily unavailable. "
+                    "Please wait a little and try again."
+                )
+            else:
+                print(f"\nSomething went wrong: {error}")
