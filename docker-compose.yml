@@ -1,0 +1,27 @@
+services:
+  api:
+    build: .
+    image: pdf-knowledge-api:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${API_PORT:-8000}:8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/', timeout=3)"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  migrate:
+    build: .
+    image: pdf-knowledge-api:latest
+    profiles: [migration]
+    env_file:
+      - .env
+    command: ["python", "-m", "scripts.migrate_db"]
