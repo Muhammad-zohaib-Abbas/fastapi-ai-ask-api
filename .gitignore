@@ -1,4 +1,4 @@
 .venv/
-# .env
+.env
 note.txt
 __pycache__/
