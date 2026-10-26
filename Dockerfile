@@ -1,19 +1,16 @@
+# 1. Use an official Python runtime as a parent image
 FROM python:3.12-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
-
+# 2. Set the working directory inside the container
 WORKDIR /app
 
-RUN addgroup --system app && adduser --system --ingroup app app
+# 3. Copy your dependencies file and install them
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY requirements.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt pypdf==6.21.1
+# 4. Copy the rest of your application code
+COPY . .
 
-COPY --chown=app:app . .
-
-USER app
-
-EXPOSE 8000
-
-CMD ["sh", "-c", "uvicorn api:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# 5. Tell Uvicorn how to run your app
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+# CMD ["python", "app.py"]
